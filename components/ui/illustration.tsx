@@ -1,6 +1,9 @@
-// Inline SVG illustration components — 取代 DALL-E 的「豐富視覺」方案
+'use client';
+// Illustration 元件 — 自動 fallback: 有 DALL-E PNG 就用 PNG, 沒就 inline SVG
 // 設計：pop art / 滿版色塊 / 多元素，符合老蔡口味
 
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 export type IllustrationVariant =
@@ -26,6 +29,32 @@ interface IllustrationProps {
 }
 
 export function Illustration({ variant, className }: IllustrationProps) {
+  const [useImage, setUseImage] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+  const src = `/illustrations/${variant}.png`;
+
+  useEffect(() => {
+    setHydrated(true);
+    fetch(src, { method: 'HEAD' })
+      .then((r) => setUseImage(r.ok))
+      .catch(() => setUseImage(false));
+  }, [src, variant]);
+
+  if (hydrated && useImage) {
+    return (
+      <div className={cn('relative w-full h-full overflow-hidden rounded-card', className)}>
+        <Image
+          src={src}
+          alt={variant}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn('relative w-full h-full overflow-hidden rounded-card', className)}>
       {VARIANTS[variant]()}
