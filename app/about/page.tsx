@@ -3,31 +3,41 @@ import { Sparkles, Target, Globe2, Users, ArrowRight, MapPin } from 'lucide-reac
 import { Navbar } from '@/components/shared/navbar';
 import { Footer } from '@/components/shared/footer';
 import { Card, CardContent } from '@/components/ui/card';
+import { Illustration } from '@/components/ui/illustration';
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-ink-50 via-white to-primary-50/20">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-pill bg-white/80 border border-primary-200 shadow-sm mb-6">
-            <Sparkles className="w-4 h-4 text-primary-600" />
-            <span className="text-sm font-medium text-ink-700">關於 Connections</span>
+      {/* Hero with illustration */}
+      <section className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-pill bg-white/80 border border-primary-200 shadow-sm mb-6">
+                <Sparkles className="w-4 h-4 text-primary-600" />
+                <span className="text-sm font-medium text-ink-700">關於 Connections</span>
+              </div>
+              <h1 className="hero-title text-ink-900">
+                為 <span className="gradient-text">台灣/亞洲跨境商務</span> 打造的人脈 AI 配對
+              </h1>
+              <p className="hero-subtitle mt-4">
+                告別 LinkedIn 滿天飛的 spam 邀請、告別 Lunchclub 的英文門檻、告別在地化不足的國際平台。
+                我們只做一件事：把台灣/東南亞/日本最值得認識的商務人脈，用 AI 精準配對給你。
+              </p>
+            </div>
+            <div className="h-80">
+              <Illustration variant="hero-network" />
+            </div>
           </div>
-          <h1 className="hero-title text-ink-900">
-            為 <span className="gradient-text">台灣/亞洲跨境商務</span> 打造的人脈 AI 配對
-          </h1>
-          <p className="hero-subtitle mt-4 max-w-2xl mx-auto">
-            告別 LinkedIn 滿天飛的 spam 邀請、告別 Lunchclub 的英文門檻、告別在地化不足的國際平台。
-            我們只做一件事：把台灣/東南亞/日本最值得認識的商務人脈，用 AI 精準配對給你。
-          </p>
         </div>
+      </section>
 
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* 故事 */}
         <Card className="mb-12">
-          <CardContent className="pt-6 prose prose-sm max-w-none">
+          <CardContent className="pt-6">
             <h2 className="font-display text-2xl font-bold text-ink-900 mb-3">我們的起點</h2>
             <p className="text-ink-600 leading-relaxed">
               創辦人老蔡是跨境創業者，過去 5 年在東南亞、日本拓展業務時深刻體會到：
@@ -42,7 +52,7 @@ export default function AboutPage() {
           </CardContent>
         </Card>
 
-        {/* 3 大差異化 */}
+        {/* 3 大差異化 — with illustrations */}
         <h2 className="font-display text-3xl font-bold text-ink-900 text-center mb-8">
           我們的<span className="gradient-text">差異化</span>
         </h2>
@@ -50,29 +60,30 @@ export default function AboutPage() {
         <div className="grid sm:grid-cols-3 gap-6 mb-12">
           {[
             {
+              illustration: 'ai-matching' as const,
               icon: <Target className="w-6 h-6" />,
               title: 'AI 精準配對',
               desc: 'OpenAI Embedding + 標籤加權 + 地區加權，給你 Top 20 真實契合的人脈，不是 LinkedIn 那種罐頭推薦。',
-              color: 'from-primary-500 to-primary-700',
             },
             {
+              illustration: 'cross-border' as const,
               icon: <Globe2 className="w-6 h-6" />,
               title: '亞洲跨境垂直',
               desc: '專為台灣/東南亞/日本跨境商務人士設計。繁中母語 UX、亞洲時區、跨境稅務/物流常見痛點的在地化建議。',
-              color: 'from-accent-500 to-accent-700',
             },
             {
+              illustration: 'relationships' as const,
               icon: <Users className="w-6 h-6" />,
               title: '關係真實沈澱',
               desc: '不只是「加好友」。每段連線記錄共同專案、共同朋友、互動歷史。找客戶、找夥伴、找導師，一鍵搜尋。',
-              color: 'from-cyan-500 to-cyan-700',
             },
           ].map((d) => (
-            <Card key={d.title} className="hover:shadow-xl transition">
+            <Card key={d.title} className="hover:shadow-xl transition overflow-hidden">
+              <div className="h-40">
+                <Illustration variant={d.illustration} />
+              </div>
               <CardContent className="pt-6">
-                <div
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${d.color} flex items-center justify-center text-white shadow-lg mb-4`}
-                >
+                <div className="w-12 h-12 rounded-xl bg-hero-gradient flex items-center justify-center text-white shadow-lg mb-4 -mt-12 relative z-10 border-4 border-white">
                   {d.icon}
                 </div>
                 <h3 className="font-display text-lg font-bold text-ink-900">{d.title}</h3>

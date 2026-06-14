@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Illustration } from '@/components/ui/illustration';
 import { MOCK_PROFILES } from '@/lib/data/mock-profiles';
 
 interface MockEvent {
@@ -21,6 +22,13 @@ const MOCK_EVENTS: MockEvent[] = [
   { id: 'evt-3', title: '日本市場進入 × 樂天/Amazon Japan 上架攻略', description: 'Yuki Tanaka 主講。從市場研究、當地化、上架流程到物流金流，一次搞懂日本電商進入。', hostId: 'mock-5', startTime: '2026-08-05 19:30', endTime: '21:00', location: '線上（Zoom）', capacity: 200, registered: 87, priceCents: 30000, coverGradient: 'from-cyan-500 to-purple-500', tags: ['日本市場', '跨境電商', '線上'] },
   { id: 'evt-4', title: '女性創業 D2C 品牌共學小聚', description: '張雅雯主持。每位參加者 5 分鐘分享自己的 D2C 品牌，互相給反饋。每月一次。', hostId: 'mock-6', startTime: '2026-07-25 10:00', endTime: '12:00', location: '台北市大安區 · 美好咖啡', capacity: 15, registered: 12, priceCents: 20000, coverGradient: 'from-rose-500 to-pink-500', tags: ['女性創業', 'D2C', '小聚'] },
 ];
+
+const COVER_MAP: Record<string, 'event-ecommerce' | 'event-funding' | 'event-japan' | 'event-women'> = {
+  'evt-1': 'event-ecommerce',
+  'evt-2': 'event-funding',
+  'evt-3': 'event-japan',
+  'evt-4': 'event-women',
+};
 
 export default function EventsPage() {
   return (
@@ -49,23 +57,34 @@ export default function EventsPage() {
             const isFree = evt.priceCents === 0;
             return (
               <Card key={evt.id} className="hover:shadow-2xl transition overflow-hidden">
-                <div className={`h-32 bg-gradient-to-br ${evt.coverGradient} flex items-center justify-center text-white relative`}>
-                  <Calendar className="w-12 h-12 opacity-30" />
+                {/* 封面 */}
+                <div className="h-32 relative">
+                  <Illustration variant={COVER_MAP[evt.id]} />
                   <div className="absolute top-3 right-3 flex gap-2">
-                    {isFree ? <Badge variant="success" className="bg-white/90 text-green-700">免費</Badge> : <Badge variant="warning" className="bg-white/90 text-amber-700">NT${(evt.priceCents / 100).toLocaleString()}</Badge>}
+                    {isFree ? (
+                      <Badge variant="success" className="bg-white/90 text-green-700">免費</Badge>
+                    ) : (
+                      <Badge variant="warning" className="bg-white/90 text-amber-700">
+                        NT${(evt.priceCents / 100).toLocaleString()}
+                      </Badge>
+                    )}
                   </div>
                 </div>
+
                 <CardContent className="pt-6">
                   <h2 className="font-display text-xl font-bold text-ink-900 line-clamp-2">{evt.title}</h2>
                   <p className="mt-2 text-sm text-ink-600 line-clamp-2">{evt.description}</p>
+
                   <div className="mt-4 space-y-2 text-sm text-ink-500">
                     <div className="flex items-center gap-2"><Clock className="w-4 h-4" /><span>{evt.startTime} {evt.endTime && `~ ${evt.endTime.split(' ')[1]}`}</span></div>
                     <div className="flex items-center gap-2"><MapPin className="w-4 h-4" /><span>{evt.location}</span></div>
                     <div className="flex items-center gap-2"><Users className="w-4 h-4" /><span>{evt.registered} / {evt.capacity} 人 {fillRate > 80 && <span className="text-accent-600 font-medium">（快額滿）</span>}</span></div>
                   </div>
+
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {evt.tags.map((t) => <Badge key={t} variant="accent">#{t}</Badge>)}
                   </div>
+
                   {host && (
                     <div className="mt-4 pt-4 border-t border-ink-100 flex items-center gap-2">
                       <Avatar fallback={host.displayName} size="sm" className={`bg-gradient-to-br ${host.avatarColor}`} />
@@ -75,6 +94,7 @@ export default function EventsPage() {
                       </div>
                     </div>
                   )}
+
                   <div className="mt-4">
                     {isFull ? <Button disabled variant="secondary" className="w-full">已額滿（候補中）</Button> : <Button className="w-full">立即報名<ArrowRight className="w-4 h-4" /></Button>}
                   </div>

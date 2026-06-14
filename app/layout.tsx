@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Noto_Sans_TC, Sora } from 'next/font/google';
+import { ToastProvider } from '@/components/ui/toast';
 import './globals.css';
 
 const inter = Inter({
@@ -33,6 +34,7 @@ export const metadata: Metadata = {
     description: 'AI 為你配對最值得認識的台灣/亞洲跨境商務人脈。',
     type: 'website',
     locale: 'zh_TW',
+    images: ['/images/og-image.png'],
   },
 };
 
@@ -42,7 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="zh-Hant-TW"
       className={`${inter.variable} ${notoTC.variable} ${sora.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   );
 }

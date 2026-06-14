@@ -2,13 +2,14 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Search as SearchIcon, MapPin, Briefcase, Sparkles, Filter } from 'lucide-react';
+import { Sparkles, Search as SearchIcon, MapPin, Briefcase, Sparkles as Sparkle, Filter } from 'lucide-react';
 import { Navbar } from '@/components/shared/navbar';
 import { Footer } from '@/components/shared/footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Illustration } from '@/components/ui/illustration';
 import { MOCK_PROFILES, type MockProfile } from '@/lib/data/mock-profiles';
 
 const ALL_TAGS = Array.from(
@@ -65,6 +66,18 @@ export default function SearchPage() {
           <p className="mt-1 text-ink-500">
             用關鍵字、標籤、產業搜尋平台上的會員
           </p>
+        </div>
+
+        <div className="mb-6 grid lg:grid-cols-[1fr_280px] gap-4 items-stretch">
+          <div className="flex-1 p-6 rounded-card bg-gradient-to-br from-primary-50 via-white to-accent-50 border border-primary-100 flex items-center gap-4">
+            <div className="flex-1">
+              <h2 className="font-display text-xl font-bold text-ink-900">找到對的人，從這裡開始</h2>
+              <p className="text-sm text-ink-600 mt-1">平台 5,000+ 跨境商務人脈，用標籤、產業、地區精準搜尋</p>
+            </div>
+            <div className="hidden sm:block h-20 w-32 flex-shrink-0">
+              <Illustration variant="hero-network" className="h-full" />
+            </div>
+          </div>
         </div>
 
         <div className="relative mb-6">
@@ -152,7 +165,9 @@ export default function SearchPage() {
             {results.length === 0 ? (
               <Card>
                 <CardContent className="pt-6 text-center py-12">
-                  <SearchIcon className="w-12 h-12 text-ink-300 mx-auto mb-3" />
+                  <div className="h-40 max-w-xs mx-auto mb-3">
+                    <Illustration variant="empty-no-match" />
+                  </div>
                   <h3 className="font-display text-xl font-bold text-ink-900">沒有符合的結果</h3>
                   <p className="mt-1 text-ink-500 text-sm">試試放寬篩選條件或更換關鍵字</p>
                 </CardContent>
